@@ -1,0 +1,12 @@
+Variable,Data Type,Description,Explanation
+date,object,Date of observation,"The date of the observation, useful for time series analysis and detecting trends or seasonality."
+DGS1MO,float64,1-Month Treasury Yield (%),"The yield on 1-month US Treasury bonds. Higher yields may indicate tighter monetary policy, potentially reducing stock valuations."
+DGS2,float64,2-Year Treasury Yield (%),"The yield on 2-year US Treasury bonds. Often reflects market expectations about short-term interest rate movements, influencing investor sentiment."
+DGS10,float64,10-Year Treasury Yield (%),"The yield on 10-year US Treasury bonds. A key benchmark for long-term interest rates, affecting stock discount rates and valuations."
+T10Y2Y,float64,10Y-2Y Treasury Yield Spread (%),"The spread between 10-year and 2-year Treasury yields. A negative spread (yield curve inversion) is often seen as a recession signal, which can impact stock prices."
+BAMLC0A1CAAA,float64,Corporate AAA Bond Yield (%),"The yield on AAA-rated corporate bonds. Higher yields suggest increased borrowing costs for companies, possibly pressuring stock prices."
+VIXCLS,float64,CBOE Volatility Index (VIX),"The CBOE Volatility Index (VIX), a measure of market volatility. Higher VIX levels indicate increased uncertainty, often leading to stock price declines."
+DTWEXBGS,float64,Broad US Dollar Index,"The Broad US Dollar Index, which measures the strength of the US dollar. A stronger dollar can negatively impact multinational companies' earnings and stock prices."
+DEXJPUS,float64,USD/JPY Exchange Rate,The exchange rate between the US dollar and Japanese yen. Currency fluctuations can affect multinational companies' revenues and profitability.
+VIXCLS_cat,object,Categorized VIX levels,"A categorical version of the VIX index, representing different volatility regimes that can impact investor sentiment and stock market trends."
+day_of_week_cat,int64,Day of the week (encoded),"The day of the week as an encoded variable. Some studies suggest that market behavior varies by day (e.g., 'Monday effect' or 'Friday rally')."

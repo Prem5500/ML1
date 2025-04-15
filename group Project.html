@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Walid Nagi, Pablo Bonete Garcia, Premtim Morina">
+
+<title>Applied Machine Learning Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="group Project_files/libs/clipboard/clipboard.min.js"></script>
+<script src="group Project_files/libs/quarto-html/quarto.js"></script>
+<script src="group Project_files/libs/quarto-html/popper.min.js"></script>
+<script src="group Project_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="group Project_files/libs/quarto-html/anchor.min.js"></script>
+<link href="group Project_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="group Project_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="group Project_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="group Project_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="group Project_files/libs/bootstrap/bootstrap-65c5f956660a6bcb9d75f28add0777ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#project-background" id="toc-project-background" class="nav-link" data-scroll-target="#project-background"><span class="header-section-number">1.1</span> Project background</a></li>
+  <li><a href="#dataset-presentation" id="toc-dataset-presentation" class="nav-link" data-scroll-target="#dataset-presentation"><span class="header-section-number">1.2</span> Dataset presentation</a></li>
+  <li><a href="#objective-of-the-analysis" id="toc-objective-of-the-analysis" class="nav-link" data-scroll-target="#objective-of-the-analysis"><span class="header-section-number">1.3</span> Objective of the analysis</a></li>
+  </ul></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration"><span class="header-section-number">2</span> Data Exploration</a>
+  <ul class="collapse">
+  <li><a href="#description-of-variables" id="toc-description-of-variables" class="nav-link" data-scroll-target="#description-of-variables"><span class="header-section-number">2.1</span> Description of variables</a></li>
+  <li><a href="#exploratory-analysis" id="toc-exploratory-analysis" class="nav-link" data-scroll-target="#exploratory-analysis"><span class="header-section-number">2.2</span> Exploratory analysis</a></li>
+  <li><a href="#preprocessing-steps" id="toc-preprocessing-steps" class="nav-link" data-scroll-target="#preprocessing-steps"><span class="header-section-number">2.3</span> Preprocessing steps</a></li>
+  </ul></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><span class="header-section-number">3</span> Methodology</a></li>
+  <li><a href="#modeling" id="toc-modeling" class="nav-link" data-scroll-target="#modeling"><span class="header-section-number">4</span> Modeling</a>
+  <ul class="collapse">
+  <li><a href="#linear-model-lm" id="toc-linear-model-lm" class="nav-link" data-scroll-target="#linear-model-lm"><span class="header-section-number">4.1</span> Linear Model (LM)</a></li>
+  <li><a href="#generalized-linear-model-poisson" id="toc-generalized-linear-model-poisson" class="nav-link" data-scroll-target="#generalized-linear-model-poisson"><span class="header-section-number">4.2</span> Generalized Linear Model – Poisson</a></li>
+  <li><a href="#generalized-linear-model-binomial" id="toc-generalized-linear-model-binomial" class="nav-link" data-scroll-target="#generalized-linear-model-binomial"><span class="header-section-number">4.3</span> Generalized Linear Model – Binomial</a></li>
+  <li><a href="#generalized-additive-model-gam" id="toc-generalized-additive-model-gam" class="nav-link" data-scroll-target="#generalized-additive-model-gam"><span class="header-section-number">4.4</span> Generalized Additive Model (GAM)</a></li>
+  <li><a href="#neural-network" id="toc-neural-network" class="nav-link" data-scroll-target="#neural-network"><span class="header-section-number">4.5</span> Neural Network</a></li>
+  <li><a href="#support-vector-machine-svm" id="toc-support-vector-machine-svm" class="nav-link" data-scroll-target="#support-vector-machine-svm"><span class="header-section-number">4.6</span> Support Vector Machine (SVM)</a></li>
+  </ul></li>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">5</span> Model Comparison</a>
+  <ul class="collapse">
+  <li><a href="#validation-strategy" id="toc-validation-strategy" class="nav-link" data-scroll-target="#validation-strategy"><span class="header-section-number">5.1</span> Validation strategy</a></li>
+  <li><a href="#performance-metrics" id="toc-performance-metrics" class="nav-link" data-scroll-target="#performance-metrics"><span class="header-section-number">5.2</span> Performance metrics</a></li>
+  <li><a href="#strengths-and-limitations-of-each-method" id="toc-strengths-and-limitations-of-each-method" class="nav-link" data-scroll-target="#strengths-and-limitations-of-each-method"><span class="header-section-number">5.3</span> Strengths and limitations of each method</a></li>
+  </ul></li>
+  <li><a href="#use-of-generative-ai" id="toc-use-of-generative-ai" class="nav-link" data-scroll-target="#use-of-generative-ai"><span class="header-section-number">6</span> Use of Generative AI</a>
+  <ul class="collapse">
+  <li><a href="#how-ai-was-used-code-explanations-text" id="toc-how-ai-was-used-code-explanations-text" class="nav-link" data-scroll-target="#how-ai-was-used-code-explanations-text"><span class="header-section-number">6.1</span> How AI was used (code, explanations, text)</a></li>
+  <li><a href="#what-worked-what-didnt" id="toc-what-worked-what-didnt" class="nav-link" data-scroll-target="#what-worked-what-didnt"><span class="header-section-number">6.2</span> What worked, what didn’t</a></li>
+  <li><a href="#critical-evaluation-of-ai-generated-content" id="toc-critical-evaluation-of-ai-generated-content" class="nav-link" data-scroll-target="#critical-evaluation-of-ai-generated-content"><span class="header-section-number">6.3</span> Critical evaluation of AI-generated content</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">7</span> Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#summary-of-findings" id="toc-summary-of-findings" class="nav-link" data-scroll-target="#summary-of-findings"><span class="header-section-number">7.1</span> Summary of findings</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations"><span class="header-section-number">7.2</span> Recommendations</a></li>
+  <li><a href="#limitations-and-outlook" id="toc-limitations-and-outlook" class="nav-link" data-scroll-target="#limitations-and-outlook"><span class="header-section-number">7.3</span> Limitations and outlook</a></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">8</span> Appendix</a>
+  <ul class="collapse">
+  <li><a href="#variable-descriptions" id="toc-variable-descriptions" class="nav-link" data-scroll-target="#variable-descriptions"><span class="header-section-number">8.1</span> Variable descriptions</a></li>
+  <li><a href="#additional-figurestables" id="toc-additional-figurestables" class="nav-link" data-scroll-target="#additional-figurestables"><span class="header-section-number">8.2</span> Additional figures/tables</a></li>
+  <li><a href="#code-excerpts" id="toc-code-excerpts" class="nav-link" data-scroll-target="#code-excerpts"><span class="header-section-number">8.3</span> Code excerpts</a></li>
+  </ul></li>
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">9</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#project-background-1" id="toc-project-background-1" class="nav-link" data-scroll-target="#project-background-1"><span class="header-section-number">9.1</span> Project background</a></li>
+  <li><a href="#dataset-presentation-1" id="toc-dataset-presentation-1" class="nav-link" data-scroll-target="#dataset-presentation-1"><span class="header-section-number">9.2</span> Dataset presentation</a></li>
+  <li><a href="#objective-of-the-analysis-1" id="toc-objective-of-the-analysis-1" class="nav-link" data-scroll-target="#objective-of-the-analysis-1"><span class="header-section-number">9.3</span> Objective of the analysis</a></li>
+  </ul></li>
+  <li><a href="#methodology-1" id="toc-methodology-1" class="nav-link" data-scroll-target="#methodology-1"><span class="header-section-number">10</span> Methodology</a></li>
+  <li><a href="#modeling-1" id="toc-modeling-1" class="nav-link" data-scroll-target="#modeling-1"><span class="header-section-number">11</span> Modeling</a>
+  <ul class="collapse">
+  <li><a href="#linear-model-lm-1" id="toc-linear-model-lm-1" class="nav-link" data-scroll-target="#linear-model-lm-1"><span class="header-section-number">11.1</span> Linear Model (LM)</a></li>
+  <li><a href="#generalized-linear-model---poisson" id="toc-generalized-linear-model---poisson" class="nav-link" data-scroll-target="#generalized-linear-model---poisson"><span class="header-section-number">11.2</span> Generalized Linear Model - Poisson</a></li>
+  <li><a href="#negative-binomial-regression" id="toc-negative-binomial-regression" class="nav-link" data-scroll-target="#negative-binomial-regression"><span class="header-section-number">11.3</span> Negative Binomial Regression</a></li>
+  <li><a href="#generalized-additive-model-gam-1" id="toc-generalized-additive-model-gam-1" class="nav-link" data-scroll-target="#generalized-additive-model-gam-1"><span class="header-section-number">11.4</span> Generalized Additive Model (GAM)</a></li>
+  <li><a href="#generalized-additive-model-gam-negative-binomial" id="toc-generalized-additive-model-gam-negative-binomial" class="nav-link" data-scroll-target="#generalized-additive-model-gam-negative-binomial"><span class="header-section-number">11.5</span> Generalized Additive Model (GAM) – Negative Binomial</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="group-Project.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Applied Machine Learning Project</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Walid Nagi, Pablo Bonete Garcia, Premtim Morina </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="project-background" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="project-background"><span class="header-section-number">1.1</span> Project background</h2>
+</section>
+<section id="dataset-presentation" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="dataset-presentation"><span class="header-section-number">1.2</span> Dataset presentation</h2>
+</section>
+<section id="objective-of-the-analysis" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="objective-of-the-analysis"><span class="header-section-number">1.3</span> Objective of the analysis</h2>
+</section>
+</section>
+<section id="data-exploration" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Data Exploration</h1>
+<section id="description-of-variables" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="description-of-variables"><span class="header-section-number">2.1</span> Description of variables</h2>
+</section>
+<section id="exploratory-analysis" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="exploratory-analysis"><span class="header-section-number">2.2</span> Exploratory analysis</h2>
+</section>
+<section id="preprocessing-steps" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="preprocessing-steps"><span class="header-section-number">2.3</span> Preprocessing steps</h2>
+</section>
+</section>
+<section id="methodology" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methodology</h1>
+</section>
+<section id="modeling" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Modeling</h1>
+<section id="linear-model-lm" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="linear-model-lm"><span class="header-section-number">4.1</span> Linear Model (LM)</h2>
+<section id="implementation-and-interpretation" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="implementation-and-interpretation"><span class="header-section-number">4.1.1</span> Implementation and interpretation</h3>
+</section>
+<section id="results-and-comments" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="results-and-comments"><span class="header-section-number">4.1.2</span> Results and comments</h3>
+</section>
+</section>
+<section id="generalized-linear-model-poisson" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="generalized-linear-model-poisson"><span class="header-section-number">4.2</span> Generalized Linear Model – Poisson</h2>
+<section id="application-to-count-data" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="application-to-count-data"><span class="header-section-number">4.2.1</span> Application to count data</h3>
+</section>
+<section id="results-and-interpretation" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="results-and-interpretation"><span class="header-section-number">4.2.2</span> Results and interpretation</h3>
+</section>
+</section>
+<section id="generalized-linear-model-binomial" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="generalized-linear-model-binomial"><span class="header-section-number">4.3</span> Generalized Linear Model – Binomial</h2>
+<section id="application-to-binary-target-t10y2y_binary" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="application-to-binary-target-t10y2y_binary"><span class="header-section-number">4.3.1</span> Application to binary target (T10Y2Y_binary)</h3>
+</section>
+<section id="results-and-interpretation-1" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="results-and-interpretation-1"><span class="header-section-number">4.3.2</span> Results and interpretation</h3>
+</section>
+</section>
+<section id="generalized-additive-model-gam" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="generalized-additive-model-gam"><span class="header-section-number">4.4</span> Generalized Additive Model (GAM)</h2>
+<section id="smoothing-and-non-linearity" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="smoothing-and-non-linearity"><span class="header-section-number">4.4.1</span> Smoothing and non-linearity</h3>
+</section>
+<section id="results-and-insights" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="results-and-insights"><span class="header-section-number">4.4.2</span> Results and insights</h3>
+</section>
+</section>
+<section id="neural-network" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="neural-network"><span class="header-section-number">4.5</span> Neural Network</h2>
+<section id="model-architecture" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="model-architecture"><span class="header-section-number">4.5.1</span> Model architecture</h3>
+</section>
+<section id="results-and-performance" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="results-and-performance"><span class="header-section-number">4.5.2</span> Results and performance</h3>
+</section>
+</section>
+<section id="support-vector-machine-svm" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="support-vector-machine-svm"><span class="header-section-number">4.6</span> Support Vector Machine (SVM)</h2>
+<section id="model-type-and-tuning" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="model-type-and-tuning"><span class="header-section-number">4.6.1</span> Model type and tuning</h3>
+</section>
+<section id="results-and-performance-1" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="results-and-performance-1"><span class="header-section-number">4.6.2</span> Results and performance</h3>
+</section>
+</section>
+</section>
+<section id="model-comparison" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Model Comparison</h1>
+<section id="validation-strategy" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="validation-strategy"><span class="header-section-number">5.1</span> Validation strategy</h2>
+</section>
+<section id="performance-metrics" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="performance-metrics"><span class="header-section-number">5.2</span> Performance metrics</h2>
+</section>
+<section id="strengths-and-limitations-of-each-method" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="strengths-and-limitations-of-each-method"><span class="header-section-number">5.3</span> Strengths and limitations of each method</h2>
+</section>
+</section>
+<section id="use-of-generative-ai" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Use of Generative AI</h1>
+<section id="how-ai-was-used-code-explanations-text" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="how-ai-was-used-code-explanations-text"><span class="header-section-number">6.1</span> How AI was used (code, explanations, text)</h2>
+</section>
+<section id="what-worked-what-didnt" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="what-worked-what-didnt"><span class="header-section-number">6.2</span> What worked, what didn’t</h2>
+</section>
+<section id="critical-evaluation-of-ai-generated-content" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="critical-evaluation-of-ai-generated-content"><span class="header-section-number">6.3</span> Critical evaluation of AI-generated content</h2>
+</section>
+</section>
+<section id="conclusion" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Conclusion</h1>
+<section id="summary-of-findings" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="summary-of-findings"><span class="header-section-number">7.1</span> Summary of findings</h2>
+</section>
+<section id="recommendations" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="recommendations"><span class="header-section-number">7.2</span> Recommendations</h2>
+</section>
+<section id="limitations-and-outlook" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="limitations-and-outlook"><span class="header-section-number">7.3</span> Limitations and outlook</h2>
+</section>
+</section>
+<section id="appendix" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Appendix</h1>
+<section id="variable-descriptions" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="variable-descriptions"><span class="header-section-number">8.1</span> Variable descriptions</h2>
+</section>
+<section id="additional-figurestables" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="additional-figurestables"><span class="header-section-number">8.2</span> Additional figures/tables</h2>
+</section>
+<section id="code-excerpts" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="code-excerpts"><span class="header-section-number">8.3</span> Code excerpts</h2>
+</section>
+</section>
+<section id="introduction-1" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Introduction</h1>
+<section id="project-background-1" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="project-background-1"><span class="header-section-number">9.1</span> Project background</h2>
+<p>Financial markets are highly sensitive to macroeconomic conditions. For technology companies like Meta (formerly Facebook), external factors such as interest rate movements, market volatility, and currency fluctuations can significantly influence investor sentiment and stock valuation.</p>
+<p>In this project, we focus on <strong>analyzing the historical stock price of Meta</strong> in conjunction with a variety of <strong>macroeconomic indicators</strong>. These include U.S. Treasury yields across different maturities, yield spreads (e.g., the 10Y–2Y spread), market volatility (VIX), credit risk premiums, and exchange rates.</p>
+<p>Our goal is to explore the relationships between Meta’s stock price and these economic indicators, and to <strong>identify predictive patterns</strong> using machine learning models. By applying methods such as <strong>Linear Models, Generalized Linear Models, Generalized Additive Models, Neural Networks</strong>, and <strong>Support Vector Machines</strong>, we aim to assess which indicators best explain or forecast the price dynamics of Meta over time.</p>
+<p>This analysis offers valuable insights not only into the behavior of a key stock within the tech sector, but also into the broader impact of macroeconomic forces on financial markets.</p>
+</section>
+<section id="dataset-presentation-1" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="dataset-presentation-1"><span class="header-section-number">9.2</span> Dataset presentation</h2>
+<p>The dataset consists of <strong>daily observations</strong> from <strong>January 2014 onward</strong>, combining Meta’s historical stock prices with various macroeconomic indicators. It includes approximately <em>X</em> observations and 14 variables. The dataset covers both continuous financial metrics and derived categorical or binary variables.</p>
+<section id="target-variable" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="target-variable"><span class="header-section-number">9.2.1</span> Target variable:</h3>
+<ul>
+<li><code>META</code>: Daily stock price of Meta<br>
+→ <em>Quantitative (continuous)</em></li>
+</ul>
+</section>
+<section id="predictor-variables" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="predictor-variables"><span class="header-section-number">9.2.2</span> Predictor variables:</h3>
+<section id="interest-rates" class="level4" data-number="9.2.2.1">
+<h4 data-number="9.2.2.1" class="anchored" data-anchor-id="interest-rates"><span class="header-section-number">9.2.2.1</span> Interest rates:</h4>
+<ul>
+<li><code>DGS1MO</code>: 1-Month Treasury Yield<br>
+→ <em>Quantitative (continuous)</em></li>
+<li><code>DGS2</code>: 2-Year Treasury Yield<br>
+→ <em>Quantitative (continuous)</em></li>
+<li><code>DGS10</code>: 10-Year Treasury Yield<br>
+→ <em>Quantitative (continuous)</em></li>
+</ul>
+</section>
+<section id="yield-spread" class="level4" data-number="9.2.2.2">
+<h4 data-number="9.2.2.2" class="anchored" data-anchor-id="yield-spread"><span class="header-section-number">9.2.2.2</span> Yield spread:</h4>
+<ul>
+<li><code>T10Y2Y</code>: 10-Year minus 2-Year yield spread<br>
+→ <em>Quantitative (continuous)</em></li>
+<li><code>T10Y2Y_binary</code>: Indicates whether the yield curve is inverted (1 = inverted, 0 = normal)<br>
+→ <em>Qualitative (binary)</em></li>
+</ul>
+</section>
+<section id="market-volatility" class="level4" data-number="9.2.2.3">
+<h4 data-number="9.2.2.3" class="anchored" data-anchor-id="market-volatility"><span class="header-section-number">9.2.2.3</span> Market volatility:</h4>
+<ul>
+<li><code>VIXCLS</code>: Volatility Index (VIX)<br>
+→ <em>Quantitative (continuous)</em></li>
+<li><code>VIXCLS_cat</code>: Categorized version of VIX (e.g.&nbsp;low, medium, high)<br>
+→ <em>Qualitative (categorical, &gt;2 levels)</em></li>
+</ul>
+</section>
+<section id="credit-and-currency-indicators" class="level4" data-number="9.2.2.4">
+<h4 data-number="9.2.2.4" class="anchored" data-anchor-id="credit-and-currency-indicators"><span class="header-section-number">9.2.2.4</span> Credit and currency indicators:</h4>
+<ul>
+<li><code>BAMLC0A1CAAA</code>: Corporate bond spread (AAA-rated)<br>
+→ <em>Quantitative (continuous)</em></li>
+<li><code>DEXJPUS</code>: USD to Japanese Yen exchange rate<br>
+→ <em>Quantitative (continuous)</em></li>
+<li><code>DTWEXBGS</code>: Trade-weighted U.S. dollar index<br>
+→ <em>Quantitative (continuous)</em></li>
+</ul>
+</section>
+<section id="additional-features" class="level4" data-number="9.2.2.5">
+<h4 data-number="9.2.2.5" class="anchored" data-anchor-id="additional-features"><span class="header-section-number">9.2.2.5</span> Additional features:</h4>
+<ul>
+<li><code>days_since_last_high</code>: Number of days since Meta reached its previous local maximum<br>
+→ <em>Quantitative (discrete/count)</em></li>
+<li><code>day_of_week_cat</code>: Day of the week (Monday to Friday, encoded as integers)<br>
+→ <em>Qualitative (categorical, 5 levels)</em></li>
+</ul>
+<p>All variables are cleaned and prepared for statistical modeling. This includes normalization of date formats, transformation of volatility and yield curve features into interpretable categories, and the creation of binary variables where appropriate. This structure enables the application of both regression and classification models.</p>
+</section>
+</section>
+</section>
+<section id="objective-of-the-analysis-1" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="objective-of-the-analysis-1"><span class="header-section-number">9.3</span> Objective of the analysis</h2>
+<p>As a group, we have a particular interest in the financial performance and market behavior of major technology companies. Meta (formerly Facebook), one of the largest and most influential players in the tech sector, represents a compelling case for financial analysis due to its sensitivity to both market sentiment and broader macroeconomic conditions.</p>
+<p>The primary objective of this project is to <strong>analyze and model the historical stock price of Meta using a variety of macroeconomic indicators</strong> as explanatory variables. We aim to uncover <strong>patterns and dependencies</strong> between Meta’s price movements and variables such as interest rates, yield curve spreads, market volatility, exchange rates, and credit risk.</p>
+<p>Specifically, our goals are: - To <strong>explore correlations</strong> and nonlinear relationships between Meta’s stock price and the selected macroeconomic indicators. - To <strong>develop and compare predictive models</strong> using multiple supervised machine learning methods, including linear and generalized linear models, generalized additive models, neural networks, and support vector machines. - To assess the <strong>predictive power of each model</strong> in explaining variations in Meta’s stock price, as well as to <strong>interpret the role</strong> of each macroeconomic feature within these models. - To provide <strong>insightful conclusions</strong> on how external economic factors may influence the valuation of a major tech company, potentially supporting decision-making for investors, analysts, or corporate strategists.</p>
+<p>This project also offers an opportunity to critically evaluate the <strong>strengths and limitations of different modeling approaches</strong> in a real-world financial context, and to reflect on the role of generative AI in supporting analytical tasks and interpretations.</p>
+</section>
+</section>
+<section id="methodology-1" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Methodology</h1>
+<p>The core objective of this project is to analyze and model Meta’s stock price behavior using a range of macroeconomic indicators. To achieve this, we adopt a structured supervised learning approach, combining exploratory data analysis, feature engineering, and the application of several machine learning techniques introduced during the course.</p>
+<p>Our <strong>target variable</strong> is the daily stock price of Meta (<code>META</code>), treated as a continuous response variable. The <strong>predictor variables</strong> include a diverse set of financial and economic indicators such as short- and long-term U.S. Treasury yields (<code>DGS1MO</code>, <code>DGS2</code>, <code>DGS10</code>), the yield spread (<code>T10Y2Y</code>), market volatility (<code>VIXCLS</code>), exchange rates (<code>DEXJPUS</code>), corporate bond spreads (<code>BAMLC0A1CAAA</code>), and derived features like <code>days_since_last_high</code>, <code>VIXCLS_cat</code>, and <code>T10Y2Y_binary</code>.</p>
+<p>These variables capture different dimensions of market conditions—interest rate environments, investor sentiment, credit risk, and currency strength—which are hypothesized to influence Meta’s valuation. The dataset includes both quantitative (continuous or count) and qualitative (categorical or binary) predictors, allowing for a rich modeling framework.</p>
+<p>To understand and predict Meta’s stock price, we apply the following models: - <strong>Linear Model (LM)</strong> for establishing baseline relationships under the assumption of linearity. - <strong>Generalized Linear Models (GLM)</strong> with Poisson and Binomial families to handle count-type and binary features or targets, such as <code>T10Y2Y_binary</code>. - <strong>Generalized Additive Models (GAM)</strong> to capture smooth, nonlinear effects while preserving interpretability. - <strong>Neural Networks (NN)</strong> to model complex and high-dimensional interactions that may not be captured by traditional statistical methods. - <strong>Support Vector Machines (SVM)</strong> to identify optimal decision boundaries and model nonlinearities with kernel functions.</p>
+<p>Each model will be fitted, interpreted, and evaluated based on appropriate performance metrics (e.g., RMSE), using validation strategies like cross-validation where relevant. The final comparison will help assess which techniques offer the best trade-off between predictive accuracy and interpretability in the context of financial forecasting.</p>
+</section>
+<section id="modeling-1" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Modeling</h1>
+<section id="linear-model-lm-1" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="linear-model-lm-1"><span class="header-section-number">11.1</span> Linear Model (LM)</h2>
+<section id="implementation-and-interpretation-1" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="implementation-and-interpretation-1"><span class="header-section-number">11.1.1</span> Implementation and interpretation</h3>
+<p>We begin our modeling phase with a <strong>Linear Regression Model (LM)</strong>, which serves as a baseline for understanding how Meta’s stock price responds to various macroeconomic factors. The model assumes a linear relationship between the dependent variable and the selected predictors. The target is Meta’s daily stock price (<code>META</code>), and the predictors include interest rates, yield spreads, market volatility, exchange rates, and time-based indicators.</p>
+<p>The following code chunk shows how we loaded the dataset and implemented the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'forcats' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'car' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'carData' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'car'
+
+The following object is masked from 'package:dplyr':
+
+    recode
+
+The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'broom' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets/dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2724 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (1): VIXCLS_cat
+dbl  (12): META, days_since_last_high, DGS1MO, DGS2, DGS10, T10Y2Y, BAMLC0A1...
+date  (1): date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the column names</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "date"                 "META"                 "days_since_last_high"
+ [4] "DGS1MO"               "DGS2"                 "DGS10"               
+ [7] "T10Y2Y"               "BAMLC0A1CAAA"         "VIXCLS"              
+[10] "DTWEXBGS"             "DEXJPUS"              "VIXCLS_cat"          
+[13] "day_of_week_cat"      "T10Y2Y_binary"       </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select variables for the model</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df_lm <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(META, DGS1MO, DGS2, DGS10, BAMLC0A1CAAA, VIXCLS,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>         DEXJPUS, DTWEXBGS, days_since_last_high, day_of_week_cat) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode categorical variable</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>df_lm<span class="sc">$</span>day_of_week_cat <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df_lm<span class="sc">$</span>day_of_week_cat)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the linear model</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>model_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(META <span class="sc">~</span> ., <span class="at">data =</span> df_lm)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># View model summary</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = META ~ ., data = df_lm)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-173.13  -23.07    1.22   27.40  484.98 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          -634.5526    28.8024 -22.031   &lt;2e-16 ***
+DGS1MO                 60.8619     1.6209  37.549   &lt;2e-16 ***
+DGS2                  -74.9780     3.4403 -21.794   &lt;2e-16 ***
+DGS10                  -9.7999     4.0858  -2.399   0.0165 *  
+BAMLC0A1CAAA         -471.3883     7.8690 -59.904   &lt;2e-16 ***
+VIXCLS                  2.8484     0.1629  17.485   &lt;2e-16 ***
+DEXJPUS                 1.6120     0.1449  11.125   &lt;2e-16 ***
+DTWEXBGS                8.6729     0.2859  30.336   &lt;2e-16 ***
+days_since_last_high   -0.2642     0.0083 -31.831   &lt;2e-16 ***
+day_of_week_cat1       -0.5209     2.8579  -0.182   0.8554    
+day_of_week_cat2       -0.8390     2.8628  -0.293   0.7695    
+day_of_week_cat3       -1.0332     2.8712  -0.360   0.7190    
+day_of_week_cat4       -0.2345     2.8867  -0.081   0.9353    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 46.51 on 2711 degrees of freedom
+Multiple R-squared:  0.8603,    Adjusted R-squared:  0.8596 
+F-statistic:  1391 on 12 and 2711 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The linear regression model offers a strong first step in modeling Meta’s stock price, achieving an <strong>adjusted R-squared of 0.86</strong>, which suggests that the selected macroeconomic indicators explain a large portion of the observed price variation.</p>
+<p>Several predictors — particularly short-term interest rates, credit spreads, and currency strength indicators — were found to be statistically significant and economically meaningful. These results align with expectations: tighter credit conditions and higher short-term interest rates are generally associated with decreased equity valuations, particularly in large-cap tech companies like Meta.</p>
+<p>However, the model also highlights some important limitations:</p>
+<ul>
+<li><strong>Multicollinearity among interest rate variables</strong> (notably between DGS1MO, DGS2, and DGS10) was substantial. This suggests that although yields at different maturities may each contribute explanatory power, their high correlation introduces instability in individual coefficient estimates.</li>
+<li><strong>Day-of-week effects were insignificant</strong>, which suggests that — once macroeconomic conditions are accounted for — there is no meaningful weekday pattern in Meta’s price behavior.</li>
+<li>The model is <strong>limited to linear relationships</strong> and may fail to capture more complex or nonlinear dependencies between predictors and stock price. Future models such as GAMs or neural networks may be better suited for this purpose.</li>
+<li>Residual diagnostics showed a reasonably good fit, but some <strong>heteroscedasticity</strong> or slight deviations from normality may still be present, which could affect inference.</li>
+</ul>
+<p>Overall, the linear model is useful for its simplicity and interpretability. It provides a strong baseline against which more flexible models can be compared.</p>
+<section id="multicollinearity-assessment" class="level4" data-number="11.1.1.1">
+<h4 data-number="11.1.1.1" class="anchored" data-anchor-id="multicollinearity-assessment"><span class="header-section-number">11.1.1.1</span> Multicollinearity Assessment</h4>
+<p>To evaluate potential multicollinearity among the predictor variables, we computed the <strong>Variance Inflation Factor (VIF)</strong> for each feature in the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multicollinearity check</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                          GVIF Df GVIF^(1/(2*Df))
+DGS1MO               12.252486  1        3.500355
+DGS2                 36.439360  1        6.036502
+DGS10                21.316345  1        4.616963
+BAMLC0A1CAAA          1.998115  1        1.413547
+VIXCLS                1.689799  1        1.299923
+DEXJPUS               6.482526  1        2.546080
+DTWEXBGS              6.011352  1        2.451806
+days_since_last_high  1.858681  1        1.363334
+day_of_week_cat       1.001152  4        1.000144</code></pre>
+</div>
+</div>
+<p>The results indicate that most variables are within acceptable thresholds (VIF &lt; 5), suggesting limited multicollinearity overall. However, <strong>some predictors related to interest rates</strong> — specifically:</p>
+<ul>
+<li><code>DGS2</code> (2-Year Treasury Yield) with a VIF ≈ 36.44<br>
+</li>
+<li><code>DGS10</code> (10-Year Treasury Yield) with a VIF ≈ 21.32<br>
+</li>
+<li><code>DGS1MO</code> (1-Month Treasury Yield) with a VIF ≈ 12.25</li>
+</ul>
+<p>— exhibit <strong>substantial multicollinearity</strong>, likely due to the strong correlation between short- and long-term interest rates.</p>
+<p>While this multicollinearity does not invalidate the model, it can lead to <strong>unstable coefficient estimates</strong> and makes it difficult to interpret the <strong>individual effect</strong> of each rate. In future steps, we may consider techniques such as <strong>principal component analysis (PCA)</strong>, <strong>regularization (e.g., Ridge or Lasso regression)</strong>, or selecting fewer yield variables to mitigate this issue.</p>
+<p>In contrast, other variables such as the credit spread, volatility index, exchange rates, and the day-of-week categorical variable show <strong>low VIF values</strong>, indicating no concern of collinearity.</p>
+</section>
+<section id="residual-diagnostics" class="level4" data-number="11.1.1.2">
+<h4 data-number="11.1.1.2" class="anchored" data-anchor-id="residual-diagnostics"><span class="header-section-number">11.1.1.2</span> Residual Diagnostics</h4>
+<p>To evaluate whether the assumptions of the linear regression model are met, we analyzed the standard residual diagnostic plots:</p>
+<ol type="1">
+<li><p><strong>Residuals vs Fitted</strong> (top-left):<br>
+This plot shows a clear curvature, suggesting a possible <strong>nonlinear relationship</strong> between the predictors and the response. Additionally, we observe heteroscedasticity — the spread of residuals increases with fitted values — which <strong>violates the constant variance (homoscedasticity) assumption</strong> of linear regression.</p></li>
+<li><p><strong>Normal Q-Q Plot</strong> (top-right):<br>
+The Q-Q plot shows <strong>deviations from normality</strong>, especially in the upper tail (very high residuals). A few points stand out as <strong>outliers</strong>, indicating potential violations of the <strong>normality assumption</strong> of residuals.</p></li>
+<li><p><strong>Scale-Location Plot</strong> (bottom-left):<br>
+This plot also confirms the presence of <strong>heteroscedasticity</strong>, as the variance of residuals increases with the fitted values. This suggests that a transformation of the response variable or use of a different model (e.g., GAM, GLM) may be necessary.</p></li>
+<li><p><strong>Residuals vs Leverage</strong> (bottom-right):<br>
+This plot helps detect <strong>influential observations</strong>. While most points lie within a safe region, a few (e.g., points 1534, 1535, and 1536) show both high residuals and leverage, making them potential <strong>influential outliers</strong> worth further investigation. Their high Cook’s distance confirms their impact on the model.</p></li>
+</ol>
+</section>
+</section>
+<section id="summary" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="summary"><span class="header-section-number">11.1.2</span> Summary</h3>
+<p>While the linear model provides strong predictive performance (high R²), these diagnostic plots suggest that: - There is <strong>nonlinearity</strong> in the data, - The assumption of <strong>constant variance is violated</strong>, and - A few <strong>outliers may disproportionately affect</strong> the regression results.</p>
+<p>These issues support the use of more flexible models in subsequent steps, such as <strong>Generalized Additive Models (GAMs)</strong> or <strong>robust regression techniques</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Residual plots</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="group-Project_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The next section will focus on interpreting the coefficients of the model and evaluating their significance in explaining the variation in Meta’s stock price.</p>
+</section>
+</section>
+<section id="generalized-linear-model---poisson" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="generalized-linear-model---poisson"><span class="header-section-number">11.2</span> Generalized Linear Model - Poisson</h2>
+<section id="implementation" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="implementation"><span class="header-section-number">11.2.1</span> Implementation</h3>
+<p>To explore the relationship between macroeconomic indicators and a count-based response, we fitted a <strong>Poisson Generalized Linear Model (GLM)</strong>. Poisson GLMs are suitable for modeling non-negative integer outcomes, assuming that the variance of the response variable is equal to its mean.</p>
+<p>For this analysis, we used <code>days_since_last_high</code> as the target variable. This variable represents the number of days since Meta last reached a local maximum, and is treated as a count. The same set of macroeconomic and time-based predictors used in the linear model was applied here.</p>
+</section>
+<section id="interpretation" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">11.2.2</span> Interpretation</h3>
+<p>The Poisson GLM was used to model the variable <code>days_since_last_high</code>, which reflects the number of days since Meta last reached a local price maximum. The model includes several macroeconomic predictors and the day of the week.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Poisson GLM</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model_pois <span class="ot">&lt;-</span> <span class="fu">glm</span>(days_since_last_high <span class="sc">~</span> DGS1MO <span class="sc">+</span> DGS2 <span class="sc">+</span> DGS10 <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                    BAMLC0A1CAAA <span class="sc">+</span> VIXCLS <span class="sc">+</span> DEXJPUS <span class="sc">+</span> DTWEXBGS <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                    day_of_week_cat,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of the model</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_pois)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = days_since_last_high ~ DGS1MO + DGS2 + DGS10 + 
+    BAMLC0A1CAAA + VIXCLS + DEXJPUS + DTWEXBGS + day_of_week_cat, 
+    family = poisson(), data = df)
+
+Coefficients:
+                  Estimate Std. Error  z value Pr(&gt;|z|)    
+(Intercept)      7.6685577  0.0781247   98.158  &lt; 2e-16 ***
+DGS1MO           0.0394764  0.0030816   12.810  &lt; 2e-16 ***
+DGS2             1.5038852  0.0067182  223.854  &lt; 2e-16 ***
+DGS10           -1.4011838  0.0086699 -161.615  &lt; 2e-16 ***
+BAMLC0A1CAAA    -0.2897843  0.0239296  -12.110  &lt; 2e-16 ***
+VIXCLS           0.0084897  0.0004439   19.124  &lt; 2e-16 ***
+DEXJPUS         -0.0198116  0.0003625  -54.651  &lt; 2e-16 ***
+DTWEXBGS        -0.0049304  0.0008167   -6.037 1.57e-09 ***
+day_of_week_cat -0.0005056  0.0013502   -0.374    0.708    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 462449  on 2723  degrees of freedom
+Residual deviance: 206784  on 2715  degrees of freedom
+AIC: 220556
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+</div>
+<section id="key-results" class="level4" data-number="11.2.2.1">
+<h4 data-number="11.2.2.1" class="anchored" data-anchor-id="key-results"><span class="header-section-number">11.2.2.1</span> Key results:</h4>
+<ul>
+<li>The <strong>intercept</strong> (7.67) represents the log-expected value of <code>days_since_last_high</code> when all predictors are at zero — not directly interpretable but necessary in the log-linear model.</li>
+<li>Most predictors are <strong>highly significant (p &lt; 0.001)</strong>, indicating strong associations with the target variable.</li>
+<li>Since the Poisson model uses a <strong>log link</strong>, each coefficient can be interpreted as a <strong>multiplicative effect</strong> on the expected count:</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 22%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Estimate</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DGS1MO</code></td>
+<td>+0.039</td>
+<td>A 1-unit increase in the 1-month yield increases the expected number of days since the last high by about <strong>4%</strong> (<em>exp(0.039)</em> ≈ 1.04).</td>
+</tr>
+<tr class="even">
+<td><code>DGS2</code></td>
+<td>+1.504</td>
+<td>A very large effect: each unit increase in 2-year yield multiplies the expected count by <strong>~4.5×</strong>.</td>
+</tr>
+<tr class="odd">
+<td><code>DGS10</code></td>
+<td>−1.401</td>
+<td>A unit increase in the 10-year yield decreases the expected count by <strong>~75%</strong> (<em>exp(−1.40)</em> ≈ 0.25).</td>
+</tr>
+<tr class="even">
+<td><code>BAMLC0A1CAAA</code></td>
+<td>−0.290</td>
+<td>Higher credit spreads reduce the expected count by <strong>~25%</strong>.</td>
+</tr>
+<tr class="odd">
+<td><code>VIXCLS</code></td>
+<td>+0.0085</td>
+<td>A small increase in volatility slightly increases the expected count (~0.85% per unit of VIX).</td>
+</tr>
+<tr class="even">
+<td><code>DEXJPUS</code></td>
+<td>−0.0198</td>
+<td>A stronger USD/JPY is associated with fewer days since a recent high (~2% decrease per unit).</td>
+</tr>
+<tr class="odd">
+<td><code>DTWEXBGS</code></td>
+<td>−0.0049</td>
+<td>The trade-weighted USD index has a small but significant negative effect.</td>
+</tr>
+<tr class="even">
+<td><code>day_of_week_cat</code></td>
+<td>−0.0005</td>
+<td>Not significant (p = 0.71), indicating that the day of the week has no real influence on this outcome.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="model-performance" class="level4" data-number="11.2.2.2">
+<h4 data-number="11.2.2.2" class="anchored" data-anchor-id="model-performance"><span class="header-section-number">11.2.2.2</span> Model performance:</h4>
+<ul>
+<li><strong>Residual deviance</strong> dropped from <strong>462,449 to 206,784</strong>, showing strong model improvement compared to the null model.</li>
+<li><strong>AIC = 220,556</strong>: Useful for model comparison.</li>
+<li>All significant predictors show clear directional effects, and the model fits the data well.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="comment" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="comment"><span class="header-section-number">11.2.3</span> Comment</h3>
+<p>The Poisson model confirms that macroeconomic indicators have a <strong>significant and structured effect</strong> on the “time since last local high” of Meta’s stock price. The interpretation of coefficients on the log scale provides insight into <strong>how quickly Meta reaches new peaks</strong> under various economic conditions.</p>
+<p>However, the magnitude of some effects (e.g., <code>DGS2</code>) may indicate <strong>model sensitivity or scaling issues</strong>. We also observe that the <strong>day-of-week variable remains non-significant</strong>, consistent with the linear model results.</p>
+<p>Further steps should include checking for <strong>overdispersion</strong>, which can bias inference in Poisson models if not addressed.</p>
+</section>
+<section id="overdispersion-check" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="overdispersion-check"><span class="header-section-number">11.2.4</span> Overdispersion Check</h3>
+<p>The Poisson model assumes that the variance of the response variable is equal to its mean. To validate this assumption, we applied the <code>dispersiontest()</code> from the <code>AER</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the AER package if not already done</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'AER' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lmtest</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lmtest' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: zoo</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'zoo' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sandwich</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sandwich' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: survival</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test for overdispersion</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dispersiontest</span>(model_pois)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Overdispersion test
+
+data:  model_pois
+z = 28.306, p-value &lt; 2.2e-16
+alternative hypothesis: true dispersion is greater than 1
+sample estimates:
+dispersion 
+  79.16842 </code></pre>
+</div>
+</div>
+<p>The test produced the following results:</p>
+<ul>
+<li><strong>z = 28.31</strong></li>
+<li><strong>p-value &lt; 2.2e-16</strong></li>
+<li><strong>Estimated dispersion = 79.17</strong></li>
+</ul>
+<p>These values provide strong evidence of <strong>overdispersion</strong>, indicating that the Poisson model underestimates variability in the data. As a result, the standard errors from the Poisson model may be too small, leading to misleading p-values and confidence intervals.</p>
+<p>To correct for this, we fitted a <strong>quasi-Poisson model</strong>. This model retains the same structure and coefficient estimates as the Poisson GLM but <strong>adjusts the standard errors</strong> to be more robust to overdispersion. While the quasi-Poisson model does not provide likelihood-based metrics like AIC, it offers more reliable inference for overdispersed count data.</p>
+<p>The next section presents and interprets the results of the quasi-Poisson model.</p>
+</section>
+<section id="quasi-poisson-model-interpretation" class="level3" data-number="11.2.5">
+<h3 data-number="11.2.5" class="anchored" data-anchor-id="quasi-poisson-model-interpretation"><span class="header-section-number">11.2.5</span> Quasi-Poisson Model Interpretation</h3>
+<p>The quasi-Poisson regression was used as an adjusted alternative to the standard Poisson GLM in order to account for overdispersion (dispersion ≈ 79.57). While the <strong>coefficient estimates remain identical</strong> to the original Poisson model, the <strong>standard errors and p-values are now corrected</strong>, providing more reliable inference.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a quasi-Poisson model</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>model_quasi <span class="ot">&lt;-</span> <span class="fu">glm</span>(days_since_last_high <span class="sc">~</span> DGS1MO <span class="sc">+</span> DGS2 <span class="sc">+</span> DGS10 <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                     BAMLC0A1CAAA <span class="sc">+</span> VIXCLS <span class="sc">+</span> DEXJPUS <span class="sc">+</span> DTWEXBGS <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                     day_of_week_cat,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> df, <span class="at">family =</span> <span class="fu">quasipoisson</span>())</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of the model</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_quasi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = days_since_last_high ~ DGS1MO + DGS2 + DGS10 + 
+    BAMLC0A1CAAA + VIXCLS + DEXJPUS + DTWEXBGS + day_of_week_cat, 
+    family = quasipoisson(), data = df)
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      7.6685577  0.6968974  11.004  &lt; 2e-16 ***
+DGS1MO           0.0394764  0.0274888   1.436   0.1511    
+DGS2             1.5038852  0.0599282  25.095  &lt; 2e-16 ***
+DGS10           -1.4011838  0.0773383 -18.118  &lt; 2e-16 ***
+BAMLC0A1CAAA    -0.2897843  0.2134596  -1.358   0.1747    
+VIXCLS           0.0084897  0.0039601   2.144   0.0321 *  
+DEXJPUS         -0.0198116  0.0032337  -6.127 1.03e-09 ***
+DTWEXBGS        -0.0049304  0.0072849  -0.677   0.4986    
+day_of_week_cat -0.0005056  0.0120439  -0.042   0.9665    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for quasipoisson family taken to be 79.57203)
+
+    Null deviance: 462449  on 2723  degrees of freedom
+Residual deviance: 206784  on 2715  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+</div>
+<section id="key-results-1" class="level4" data-number="11.2.5.1">
+<h4 data-number="11.2.5.1" class="anchored" data-anchor-id="key-results-1"><span class="header-section-number">11.2.5.1</span> Key results:</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Estimate</th>
+<th>Significance</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>DGS2</strong></td>
+<td>+1.504</td>
+<td>***</td>
+<td>A strong positive relationship: a 1-unit increase in the 2-year Treasury yield is associated with a ~4.5× increase in the expected count of days since the last local high (<em>exp(1.50)</em> ≈ 4.5).</td>
+</tr>
+<tr class="even">
+<td><strong>DGS10</strong></td>
+<td>−1.401</td>
+<td>***</td>
+<td>A 1-unit increase in the 10-year yield corresponds to a ~75% decrease in the expected count (<em>exp(−1.40)</em> ≈ 0.25).</td>
+</tr>
+<tr class="odd">
+<td><strong>DEXJPUS</strong></td>
+<td>−0.0198</td>
+<td>***</td>
+<td>A stronger USD/JPY exchange rate slightly reduces the expected count of days since the last high.</td>
+</tr>
+<tr class="even">
+<td><strong>VIXCLS</strong></td>
+<td>+0.0085</td>
+<td>*</td>
+<td>Higher market volatility is weakly associated with a longer time since Meta reached a peak.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="non-significant-variables-p-0.05" class="level4" data-number="11.2.5.2">
+<h4 data-number="11.2.5.2" class="anchored" data-anchor-id="non-significant-variables-p-0.05"><span class="header-section-number">11.2.5.2</span> Non-significant variables (p &gt; 0.05):</h4>
+<ul>
+<li><strong>DGS1MO</strong>, <strong>BAMLC0A1CAAA</strong>, and <strong>DTWEXBGS</strong>: Their effects were not statistically significant after correcting for overdispersion.</li>
+<li><strong>day_of_week_cat</strong>: Continues to show no significant effect, reinforcing the conclusion from previous models that the day of the week does not influence the time since last high.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="summary-1" class="level3" data-number="11.2.6">
+<h3 data-number="11.2.6" class="anchored" data-anchor-id="summary-1"><span class="header-section-number">11.2.6</span> Summary</h3>
+<p>The quasi-Poisson model confirms that several macroeconomic variables — particularly <strong>interest rates</strong> and <strong>exchange rates</strong> — have strong, statistically significant associations with the count of days since Meta last reached a local high.</p>
+<p>Thanks to the correction for overdispersion, this model provides <strong>more trustworthy p-values</strong> and a more robust understanding of predictor effects, even though it does not offer AIC-based model comparison. Based on these findings, the next step will be to test a <strong>Negative Binomial model</strong>, which introduces an additional dispersion parameter and may better handle the strong overdispersion observed in the data.</p>
+</section>
+</section>
+<section id="negative-binomial-regression" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="negative-binomial-regression"><span class="header-section-number">11.3</span> Negative Binomial Regression</h2>
+<section id="implementation-1" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="implementation-1"><span class="header-section-number">11.3.1</span> Implementation</h3>
+<p>As a final step in addressing overdispersion, we applied a <strong>Negative Binomial model</strong>. This model introduces an additional dispersion parameter, allowing it to better accommodate variability in count data that exceeds the assumptions of a standard Poisson GLM.</p>
+<p>We used the same predictors as before to ensure comparability with the Poisson and quasi-Poisson models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load MASS package if needed</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'MASS'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the negative binomial model</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>model_nb <span class="ot">&lt;-</span> <span class="fu">glm.nb</span>(days_since_last_high <span class="sc">~</span> DGS1MO <span class="sc">+</span> DGS2 <span class="sc">+</span> DGS10 <span class="sc">+</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                     BAMLC0A1CAAA <span class="sc">+</span> VIXCLS <span class="sc">+</span> DEXJPUS <span class="sc">+</span> DTWEXBGS <span class="sc">+</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>                     day_of_week_cat, <span class="at">data =</span> df)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm.nb(formula = days_since_last_high ~ DGS1MO + DGS2 + DGS10 + 
+    BAMLC0A1CAAA + VIXCLS + DEXJPUS + DTWEXBGS + day_of_week_cat, 
+    data = df, init.theta = 0.6411213112, link = log)
+
+Coefficients:
+                  Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)     10.0025626  0.7484557  13.364  &lt; 2e-16 ***
+DGS1MO           0.0461694  0.0435357   1.060    0.289    
+DGS2             1.2731923  0.0867908  14.670  &lt; 2e-16 ***
+DGS10           -1.1071106  0.1052711 -10.517  &lt; 2e-16 ***
+BAMLC0A1CAAA    -1.2292609  0.2128525  -5.775 7.69e-09 ***
+VIXCLS           0.0338072  0.0044021   7.680 1.59e-14 ***
+DEXJPUS         -0.0161871  0.0039237  -4.125 3.70e-05 ***
+DTWEXBGS        -0.0301439  0.0075318  -4.002 6.27e-05 ***
+day_of_week_cat  0.0008238  0.0173098   0.048    0.962    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Negative Binomial(0.6411) family taken to be 1)
+
+    Null deviance: 4860.7  on 2723  degrees of freedom
+Residual deviance: 3271.1  on 2715  degrees of freedom
+AIC: 27978
+
+Number of Fisher Scoring iterations: 1
+
+              Theta:  0.6411 
+          Std. Err.:  0.0163 
+
+ 2 x log-likelihood:  -27958.3360 </code></pre>
+</div>
+</div>
+</section>
+<section id="interpretation-1" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="interpretation-1"><span class="header-section-number">11.3.2</span> Interpretation</h3>
+<p>The Negative Binomial model was applied to better accommodate the substantial overdispersion found in the data. This model introduces a dispersion parameter (( = 0.64 )) that allows the variance to exceed the mean, offering greater flexibility compared to the Poisson and quasi-Poisson approaches.</p>
+<section id="key-results-2" class="level4" data-number="11.3.2.1">
+<h4 data-number="11.3.2.1" class="anchored" data-anchor-id="key-results-2"><span class="header-section-number">11.3.2.1</span> Key results:</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Estimate</th>
+<th>Significance</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>DGS2</strong></td>
+<td>+1.273</td>
+<td>***</td>
+<td>A 1-unit increase in the 2-year yield multiplies the expected count by <strong>~3.57×</strong> (<em>exp(1.273)</em>).</td>
+</tr>
+<tr class="even">
+<td><strong>DGS10</strong></td>
+<td>−1.107</td>
+<td>***</td>
+<td>A 1-unit increase in the 10-year yield <strong>reduces the expected count by ~66%</strong> (<em>exp(−1.11)</em> ≈ 0.33).</td>
+</tr>
+<tr class="odd">
+<td><strong>BAMLC0A1CAAA</strong></td>
+<td>−1.229</td>
+<td>***</td>
+<td>Wider credit spreads are associated with a <strong>~71% decrease</strong> in expected count.</td>
+</tr>
+<tr class="even">
+<td><strong>VIXCLS</strong></td>
+<td>+0.034</td>
+<td>***</td>
+<td>Each unit increase in market volatility leads to a ~3.4% increase in expected count.</td>
+</tr>
+<tr class="odd">
+<td><strong>DEXJPUS</strong></td>
+<td>−0.0162</td>
+<td>***</td>
+<td>A stronger USD/JPY exchange rate reduces the expected number of days since the last high.</td>
+</tr>
+<tr class="even">
+<td><strong>DTWEXBGS</strong></td>
+<td>−0.0301</td>
+<td>***</td>
+<td>A stronger trade-weighted dollar index also corresponds with a decrease in expected count.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="non-significant-variables" class="level4" data-number="11.3.2.2">
+<h4 data-number="11.3.2.2" class="anchored" data-anchor-id="non-significant-variables"><span class="header-section-number">11.3.2.2</span> Non-significant variables:</h4>
+<ul>
+<li><strong>DGS1MO</strong> (p = 0.29): No significant effect after controlling for other rates.</li>
+<li><strong>day_of_week_cat</strong> (p = 0.96): Continues to show no impact, aligning with results from prior models.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="model-performance-1" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="model-performance-1"><span class="header-section-number">11.3.3</span> Model performance:</h3>
+<ul>
+<li><strong>AIC = 27,978</strong>, notably <strong>lower</strong> than the Poisson model (AIC ≈ 220,556), which supports the improved fit.</li>
+<li>The model converged efficiently (1 iteration), and the dispersion parameter ( ) reflects the high overdispersion initially detected.</li>
+</ul>
+<p>The Negative Binomial model confirms and strengthens findings from previous models, but with <strong>greater reliability and robustness to variance inflation</strong>.</p>
+</section>
+</section>
+<section id="generalized-additive-model-gam-1" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="generalized-additive-model-gam-1"><span class="header-section-number">11.4</span> Generalized Additive Model (GAM)</h2>
+<section id="implementation-2" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="implementation-2"><span class="header-section-number">11.4.1</span> Implementation</h3>
+<p>To model potential non-linear relationships between the predictors and the target variable <code>days_since_last_high</code>, we implemented a <strong>Generalized Additive Model (GAM)</strong> using the <code>mgcv</code> package.</p>
+<p>This model retains the <strong>Poisson distribution</strong> but replaces linear terms with smooth functions (splines) where appropriate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load mgcv if not already done</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: nlme</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'nlme'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    collapse</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is mgcv 1.9-0. For overview type 'help("mgcv-package")'.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a GAM using Poisson family (you could also try nb() for Negative Binomial)</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>model_gam <span class="ot">&lt;-</span> <span class="fu">gam</span>(days_since_last_high <span class="sc">~</span> </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">s</span>(DGS1MO) <span class="sc">+</span> <span class="fu">s</span>(DGS2) <span class="sc">+</span> <span class="fu">s</span>(DGS10) <span class="sc">+</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">s</span>(BAMLC0A1CAAA) <span class="sc">+</span> <span class="fu">s</span>(VIXCLS) <span class="sc">+</span> </span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">s</span>(DEXJPUS) <span class="sc">+</span> <span class="fu">s</span>(DTWEXBGS) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>                   day_of_week_cat,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">poisson</span>(), <span class="at">data =</span> df)</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of the GAM</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_gam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: poisson 
+Link function: log 
+
+Formula:
+days_since_last_high ~ s(DGS1MO) + s(DGS2) + s(DGS10) + s(BAMLC0A1CAAA) + 
+    s(VIXCLS) + s(DEXJPUS) + s(DTWEXBGS) + day_of_week_cat
+
+Parametric coefficients:
+                 Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)      3.854869   0.004592 839.554   &lt;2e-16 ***
+day_of_week_cat -0.006680   0.001353  -4.935    8e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+                  edf Ref.df Chi.sq p-value    
+s(DGS1MO)       8.996      9   9930  &lt;2e-16 ***
+s(DGS2)         8.985      9   5784  &lt;2e-16 ***
+s(DGS10)        8.998      9  20293  &lt;2e-16 ***
+s(BAMLC0A1CAAA) 8.985      9   5822  &lt;2e-16 ***
+s(VIXCLS)       8.985      9   5555  &lt;2e-16 ***
+s(DEXJPUS)      8.995      9  26476  &lt;2e-16 ***
+s(DTWEXBGS)     8.993      9  18599  &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =  0.837   Deviance explained = 83.5%
+UBRE = 27.132  Scale est. = 1         n = 2724</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretation-2" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="interpretation-2"><span class="header-section-number">11.4.2</span> Interpretation</h3>
+<p>The Generalized Additive Model (GAM) was fitted using a Poisson distribution to model the count variable <code>days_since_last_high</code>. Unlike previous models, GAM allows each predictor to influence the outcome <strong>non-linearly</strong> using smooth spline functions.</p>
+<section id="key-findings" class="level4" data-number="11.4.2.1">
+<h4 data-number="11.4.2.1" class="anchored" data-anchor-id="key-findings"><span class="header-section-number">11.4.2.1</span> Key findings:</h4>
+<ul>
+<li>All smooth terms are <strong>highly significant (p &lt; 2e-16)</strong>, suggesting that the relationship between the predictors and the outcome is <strong>non-linear</strong>.</li>
+<li>The <strong>estimated degrees of freedom (edf)</strong> for each smooth term are close to 9, confirming that the model allowed flexible shapes for each curve.</li>
+<li>The only parametric effect (<code>day_of_week_cat</code>) is also significant (<strong>p &lt; 0.001</strong>), unlike in previous models where it had no influence. This may suggest <strong>non-linear interactions or adjustment effects</strong> in the GAM context.</li>
+<li>The model explains <strong>~83.5% of the deviance</strong> and has an <strong>adjusted R-squared of 0.837</strong>, which is comparable to or better than the previous models.</li>
+</ul>
+<p>This confirms that allowing non-linear terms improves the model’s ability to capture complex effects of macroeconomic variables on Meta’s stock dynamics.</p>
+</section>
+</section>
+</section>
+<section id="generalized-additive-model-gam-negative-binomial" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="generalized-additive-model-gam-negative-binomial"><span class="header-section-number">11.5</span> Generalized Additive Model (GAM) – Negative Binomial</h2>
+<section id="implementation-3" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="implementation-3"><span class="header-section-number">11.5.1</span> Implementation</h3>
+<p>Given the strong overdispersion observed in our count data and the potential for non-linear relationships between predictors and the response, we fitted a <strong>Generalized Additive Model (GAM)</strong> with a <strong>Negative Binomial distribution</strong> using the <code>mgcv</code> package.</p>
+<p>This model combines the benefits of: - Non-linear smoothing splines (for modeling complex patterns), - And the negative binomial family (for modeling overdispersed count data).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load mgcv if not already done</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit GAM with Negative Binomial distribution</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>model_gam_nb <span class="ot">&lt;-</span> <span class="fu">gam</span>(days_since_last_high <span class="sc">~</span> </span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">s</span>(DGS1MO) <span class="sc">+</span> <span class="fu">s</span>(DGS2) <span class="sc">+</span> <span class="fu">s</span>(DGS10) <span class="sc">+</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">s</span>(BAMLC0A1CAAA) <span class="sc">+</span> <span class="fu">s</span>(VIXCLS) <span class="sc">+</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">s</span>(DEXJPUS) <span class="sc">+</span> <span class="fu">s</span>(DTWEXBGS) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>                      day_of_week_cat,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">family =</span> <span class="fu">nb</span>(), <span class="at">data =</span> df)</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Show model summary</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_gam_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: Negative Binomial(1.109) 
+Link function: log 
+
+Formula:
+days_since_last_high ~ s(DGS1MO) + s(DGS2) + s(DGS10) + s(BAMLC0A1CAAA) + 
+    s(VIXCLS) + s(DEXJPUS) + s(DTWEXBGS) + day_of_week_cat
+
+Parametric coefficients:
+                 Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)      3.817451   0.032960 115.820   &lt;2e-16 ***
+day_of_week_cat -0.001541   0.013406  -0.115    0.908    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+                  edf Ref.df Chi.sq p-value    
+s(DGS1MO)       8.234  8.830 197.63 &lt; 2e-16 ***
+s(DGS2)         8.397  8.900  98.47 &lt; 2e-16 ***
+s(DGS10)        8.773  8.980 423.22 &lt; 2e-16 ***
+s(BAMLC0A1CAAA) 7.845  8.616 139.61 &lt; 2e-16 ***
+s(VIXCLS)       6.493  7.667  27.06 0.00237 ** 
+s(DEXJPUS)      8.777  8.983 406.35 &lt; 2e-16 ***
+s(DTWEXBGS)     8.789  8.984 381.29 &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =  0.557   Deviance explained = 60.7%
+-REML =  13319  Scale est. = 1         n = 2724</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretation-3" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="interpretation-3"><span class="header-section-number">11.5.2</span> Interpretation</h3>
+<p>The Generalized Additive Model (GAM) with a <strong>Negative Binomial distribution</strong> was applied to account for both <strong>non-linear relationships</strong> and <strong>overdispersion</strong> in the count outcome <code>days_since_last_high</code>.</p>
+<section id="key-findings-1" class="level4" data-number="11.5.2.1">
+<h4 data-number="11.5.2.1" class="anchored" data-anchor-id="key-findings-1"><span class="header-section-number">11.5.2.1</span> Key findings:</h4>
+<ul>
+<li>Most smooth terms are <strong>highly significant</strong> (<em>p &lt; 0.001</em>), showing strong evidence of <strong>non-linear effects</strong> across all major macroeconomic predictors.</li>
+<li>The degrees of freedom (<code>edf</code>) are slightly lower than in the previous GAM Poisson model, indicating that the model fit is more conservative (less wiggly), but still captures complexity.</li>
+<li>The parametric effect <code>day_of_week_cat</code> is <strong>not significant</strong> (<em>p = 0.91</em>), aligning with previous models and confirming that day-of-week patterns do not meaningfully impact the outcome.</li>
+</ul>
+<hr>
+</section>
+<section id="model-fit" class="level4" data-number="11.5.2.2">
+<h4 data-number="11.5.2.2" class="anchored" data-anchor-id="model-fit"><span class="header-section-number">11.5.2.2</span> Model fit:</h4>
+<ul>
+<li><strong>Deviance explained</strong>: 60.7%<br>
+</li>
+<li><strong>Adjusted R²</strong>: 0.557<br>
+</li>
+<li><strong>Smoother terms like <code>DGS10</code>, <code>DEXJPUS</code>, and <code>DTWEXBGS</code></strong> continue to have a large influence on the response.</li>
+<li>While this is slightly lower than the GAM with Poisson (which had ~83% deviance explained), this model offers a <strong>better trade-off between fit and reliability</strong>, especially under high dispersion.</li>
+</ul>
+<p>Overall, the GAM NB model provides a robust and interpretable framework for capturing <strong>nonlinear dynamics</strong> in overdispersed count data, while correcting for the limitations of earlier Poisson-based models.</p>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
